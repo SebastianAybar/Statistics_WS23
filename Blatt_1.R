@@ -1,3 +1,6 @@
+library("ggplot2")
+
+
 #the sum of 52.3, 74.8, 3.17
 52.3 + 74.8 + 3.17
 #the square root of 144
@@ -82,11 +85,25 @@ new_matrix = matrix[2:8, 1:10]
 col_means <- colMeans(new_matrix)
 hist(col_means)
 
+#Aufgabe 7
+dataset <- str(mpg)
+
+#Aufgabe 8
+liste_1 <- list(vater="John", mutter="Mary", kinder_alter=c(4, 6, 10))
+liste_2 <- list(kind_1_name="Bob", kind_2_name="Cate", kind_3_name="Susan")
+list_concatinate_1 <- c(liste_1, liste_2)
+list_concatinate_2 <- list(liste_1, liste_2)
 
 
+# Neue Liste erstellen
+liste_kinder <- list()
 
-
-
+# Schleife, um Namen und Alter hinzuzufügen
+for (i in 1:length(liste_2)) {
+  kind_name <- liste_2[[paste0("kind_", i, "_name")]]
+  kind_alter <- liste_1[["kinder_alter"]][i]
+  liste_kinder[[i]] <- list(name = kind_name, alter = kind_alter)
+}
 
 
 
