@@ -1,6 +1,7 @@
 library("tidyverse")
 library("tidyr")
 library("dplyr")
+library(nycflight13)
 
 
 #Aufgabe
@@ -63,6 +64,7 @@ student3 <- tibble(
   name = c("Adam", "Bernd", "Christian", "Doris"),
   ratio = c("81/1.83", "71/1.75", "55/1.69", "62/1.57")
 )
+
 #Datensatz "student3" ist nicht tidy da ein und dieselbe Variable in mehreren Spalten vorkommt 
 #So wuerde der Datensatz in tidy aussehen:
 student3 <- tibble(name = character(), height = double(), weight = double())
@@ -72,6 +74,22 @@ student3 <- student3 %>%
   add_row(name = "Christian", height = 1.65, weight = 55) %>%
   add_row(name = "Doris", height = 1.57, weight = 62)
 print(student3)
+
+
+
+
+#with gather() and spread()
+student1 <- student1 %>% gather(key = "subject", value = "score", 2:4)
+student2 <- student2 %>% spread(key = type, value = measure)
+
+#weiters Beispiel fuer spread()
+data_long <- tibble(
+  Person = c("Alice", "Alice", "Bob", "Bob"),
+  Subject = c("Math", "Science", "Math", "Science"),
+  Score = c(90, 88, 85, 76)
+)
+data_wide <- data_long %>% spread(key = Subject, value = Score)
+
 
 #Aufgabe 2
 result <- sin(log(sqrt(5 + 3)))
@@ -99,6 +117,43 @@ df <- df %>%
 #Add two columns score2 and score3 with random integer numbers between 0 and 25.
 df <- df %>% mutate(score2 = sample(0:25, size = 11, replace = TRUE),
                     score3 = sample(0:25, size = 11, replace = TRUE))
+#Add a column containing sum of all scores
+df <- df %>% rowwise() %>% mutate(score_sum = sum(score1, score2, score3))
+df <- df %>% mutate(score_sum = rowSums(select(df, score1:score3)))
+df <- df %>% mutate(score_sum = rowSums(select(df, -id, -sex, -age)))
+df <- df %>% mutate(score_sum = rowSums(select(df, score1, score2, score3)))
+#Add a column which denote the grades 
+df <- df %>% mutate(grade = if(score_sum <= 37) 5
+                    else if(score_sum > 37 & score_sum <= 45) 4
+                    else if(score_sum > 45 & score_sum <= 55) 3
+                    else if(score_sum > 55 & score_sum <=65) 2
+                    else (score_sum > 65))
+
+#Find the values of the variables id, sex and grade sorted by the values of sex of all students who have passed.
+#Uebersicht der Studenten welche bestanden haben nach Geschlecht
+students_passed <- df %>% select(id, sex, grade) %>% filter(grade <= 4) %>% arrange(sex)
+
+#Calculate the mean, minimum, maximum and median of the variable sum of scores grouped by the variable sex.
+clacultaions <- df %>% group_by(sex) %>% summarise(Durchschnitt = mean(score_sum),
+                                         Minimum = min(score_sum),
+                                         Maximum = max(score_sum),
+                                         median(score_sum))
+
+#Aufgabe 4
+no <- 30
+exercise.results <- tibble(
+  stud.id = 1:no,
+  group = sample(x=c("A","B","C"), size=no, replace = TRUE),
+  ex1 = sample(x=1:10, size=no, replace = TRUE),
+  ex2= sample(x=1:10, size=no, replace = TRUE),
+  ex3 = sample(x=1:10, size=no, replace = TRUE),
+  ex4 = sample(x=1:10, size=no, replace = TRUE),
+  ex5 = sample(x=1:10, size=no, replace = TRUE)
+)
+#Apply n() and count() to get the number of students in the different groups. What are the difference between n() and count()?
+#count() <=> group_by() <=> summatrise(Anzahl = n())
+group_distribution <- exercise.results %>% group_by(group) %>% summarise(Anzahl = n())
+group_distribution <- exercise.results %>% count(group)
 
 
 

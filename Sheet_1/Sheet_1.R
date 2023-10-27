@@ -106,8 +106,6 @@ for (i in 1:length(liste_2)) {
 }
 
 
-#Aufgabe 7
-str(mpg)
 
 
 
