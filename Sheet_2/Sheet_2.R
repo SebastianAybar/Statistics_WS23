@@ -1,7 +1,7 @@
 library("tidyverse")
 library("tidyr")
 library("dplyr")
-library(nycflight13)
+library("nycflights13")
 
 
 #Aufgabe
@@ -154,6 +154,47 @@ exercise.results <- tibble(
 #count() <=> group_by() <=> summatrise(Anzahl = n())
 group_distribution <- exercise.results %>% group_by(group) %>% summarise(Anzahl = n())
 group_distribution <- exercise.results %>% count(group)
+
+#Aufgabe 5
+flights <- flights
+#Find all flights with more than 2 hours arrival delay
+x <- flights %>% filter(arr_delay > 2)
+#Find all flights with more tahn 2 hours arrival delay and no departure delay
+y <- flights %>% filter(arr_delay > 2 &  dep_delay <= 0)
+#Find all flights from United, American and Delta with no arrival delay
+z <- flights %>% filter((carrier == "UA" | carrier == "AA") & arr_delay <= 0)
+#Find all flights from United, American and Delta in the month
+#May with more than 5 hours arrival delay sorted by carrier and flight number.
+w <- flights %>% filter((carrier == "UA" | carrier == "AA" | carrier == "DL") & arr_delay >= 5) %>% arrange(carrier, flight)
+#Add a column speed which denotes the average speed of the flight and determine the carrier, flight of the top 10 values of speed.
+flights <- flights %>% mutate(air_time_hours = round((air_time / 60), 2))
+flights <- flights %>% mutate(speed = round((distance/air_time_hours), 2))
+top10 <- flights %>% select(carrier, flight, speed) %>% arrange(desc(speed)) %>% head(10)
+#Find a list of carriers with a column ratio which denotes the number of flights with arr delay less than 10 minutes 
+#to the total number of flights. The list should be sorted by ratio
+h <- flights %>% group_by(carrier) %>% summarise(ans_flights = n(),
+                                                 ans_flights_no_delay = sum(arr_delay<10, na.rm = TRUE),
+                                                 ratio_delayed_flights = round(ans_flights_no_delay / ans_flights, 2)) %>% arrange(desc(ratio_delayed_flights))
+                                                 
+#Determine a table that shows, for each airline (carrier), the flight
+#connection given by the airports of dest und origin that occurred
+#most frequently in 2013. The table should contain only the columns
+#names of airline, destination, origin and frequency and be sorted
+#by frequency in descending order. You can find the names of the
+#carrier from the dataset airlines and the names of the airports
+#from the dataset airports.
+airports <- airports
+airlines <- airlines
+flights_2013 <- flights %>% filter(year == 2013)
+flights_frequency <- flights_2013 %>% group_by(carrier, origin, dest) %>% summarise(frequency = n()) %>% arrange(desc(frequency))
+flights_frequency_with_names <- left_join(flights_frequency, airlines, by = c("carrier" = "carrier"))
+colnames(flights_frequency_with_names) <- c("abbr", "origin", "dest", "freq", "carrier_name")
+flights_frequency_with_names_ordered <- flight_counts_with_names %>% select(abbr, carrier_name, origin, dest, freq)
+
+
+
+
+
 
 
 
