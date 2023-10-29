@@ -189,7 +189,7 @@ flights_2013 <- flights %>% filter(year == 2013)
 flights_frequency <- flights_2013 %>% group_by(carrier, origin, dest) %>% summarise(frequency = n()) %>% arrange(desc(frequency))
 flights_frequency_with_names <- left_join(flights_frequency, airlines, by = c("carrier" = "carrier"))
 colnames(flights_frequency_with_names) <- c("abbr", "origin", "dest", "freq", "carrier_name")
-flights_frequency_with_names_ordered <- flight_counts_with_names %>% select(abbr, carrier_name, origin, dest, freq)
+flights_frequency_with_names_ordered <- flights_frequency_with_names %>% select(abbr, carrier_name, origin, dest, freq)
 
 
 
