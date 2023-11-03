@@ -2,6 +2,7 @@ library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("nycflights13")
+library("stringr")
 
 
 #Aufgabe
@@ -206,10 +207,61 @@ flights_frequency_max <- flights_frequency_max %>%
   rename(departure = name.y) %>%
   select(carrier, airline, departure, destination, frequency)
   
-  
+#Aufgabe 6
+#Beispiel
+df <- data.frame(
+  Student = c("A", "B", "C"),
+  Test1 = c(85, 90, 78),
+  Test2 = c(77, 88, 92),
+  Test3 = c(89, 76, 84))
+df_long <- gather(df, key = "Test", value = "Wert", -Student)
+#Beispiel Ende
+
+
+dataset <- who
+dataset <- dataset %>% 
+  gather(key = "key", value = "value", new_sp_m014:newrel_f65, na.rm = TRUE)
+#gsub immer direkt auf eine Spalte zuweisen
+dataset$key <- gsub("new_", "", dataset$key)
+dataset$key <- gsub("new", "", dataset$key)
+dataset$key <- gsub("m", "m_", dataset$key)
+dataset$key <- gsub("f", "f_", dataset$key)
+dataset <- dataset %>% separate(key, into = c("diagnose", "gender", "age"), sep = "_") %>%
+  select(-iso2, -iso3)
+#alternative
+dataset <- who
+dataset <- dataset %>%
+  gather(key = "key", value = "value", new_sp_m014:newrel_f65, na.rm = TRUE) %>%
+  mutate(key = str_replace(key,"new_", "")) %>%   
+  mutate(key = str_replace(key,"new", "")) %>%
+  mutate(key = str_replace(key,"m", "m_")) %>%
+  mutate(key = str_replace(key,"f", "f_")) %>%
+  separate(key, into = c("diagnose", "gender", "age"), sep = "_") %>%
+  select(-iso2, -iso3)
+
+#The data set production contains the combination of product, country, and year.
+#Widen the data so we have one column for each combination of product and country.
+production <-
+  expand_grid(
+    product = c("A", "B"),
+    country = c("AI", "EI"),
+    year = 2000:2014) %>%
+  filter((product == "A" & country == "AI") | product == "B") %>%
+  mutate(production = rnorm(nrow(.)))
+
+production_messy <- production %>% 
+  mutate(x = str_c(product, country, sep = "_")) %>%
+  select(-product, -country) %>%
+  spread(key = x, value = production)
+#Warum funktioniert das aber nicht?
+production_messy <- production %>% 
+  mutate(x = str_c(product, country, sep = "_")) %>%
+  spread(key = x, value = production) %>%
+  select(-product, -country)
 
   
 
+  
 
 
 
