@@ -45,10 +45,17 @@ plot(names(cum_sum), cum_sum, type = "s",
      xlab="Werte")
 
 
-# Beispiel-Vektor erstellen
+#Beispiel-Vektor erstellen
 data <- c(568, 577, 581, 640, 641, 645, 657, 673, 696, 703, 720, 728, 729, 777, 808, 824, 825, 865, 875, 1007)
-# Erstelle die ECDF
+#Erstelle die ECDF
 ecdf_data <- ecdf(data)
-# Plotte die ECDF
+#Plotte die ECDF
 plot(ecdf_data, main="Empirische kumulative Verteilungsfunktion (ECDF)", xlab="Werte")
+
+#Aufgabe 4
+obs <- tibble(Number = c(1:8), abs_freq = c(5, 4, 1, 7, 2, 3, 1, 2))
+arith_mean <- mean(obs$abs_freq)
+geometric_mean <- exp(mean(log(obs$abs_freq)))
+
+
 
