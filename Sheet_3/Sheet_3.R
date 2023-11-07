@@ -37,20 +37,28 @@ barplot(matrix_t, main = "Election Results 2013 and 2017",
                 names.arg = Party)
 
 #Aufgabe 2
-vector <- c(568, 577, 581, 640, 641, 645, 657, 673, 696, 703, 720, 728, 729, 777, 808, 824, 825, 865, 875, 1007)
-tab <- table(vector)
-cum_sum <- cumsum(tab)
-plot(names(cum_sum), cum_sum, type = "s", 
-     main="Empirische kumulative Verteilungsfunktion (ECDF)", 
-     xlab="Werte")
+values <- c(568, 577, 581, 640, 641, 645, 657, 673, 696, 703, 720, 728, 729, 777, 808, 824, 825, 865, 875, 1007)
+table_values <- table(values)
+tibble_values <- tibble(Werte = as.integer(names(table_values)),
+                        absolute_Häufigkeit = as.integer(table_values),
+                        relative_Häufigkeit = absolute_Häufigkeit / length(table_values),
+                        kumulative_Häufigkeit = cumsum(relative_Häufigkeit))
 
+ecdf_data <- ecdf(tibble_values$Werte)
+plot(ecdf_data, main = "Empirische kumulative Verteilungsfunktion (ECDF)",
+                xlab = "Werte",
+                ylab = "kumulative Häufigkeit")
 
-#Beispiel-Vektor erstellen
-data <- c(568, 577, 581, 640, 641, 645, 657, 673, 696, 703, 720, 728, 729, 777, 808, 824, 825, 865, 875, 1007)
-#Erstelle die ECDF
-ecdf_data <- ecdf(data)
-#Plotte die ECDF
-plot(ecdf_data, main="Empirische kumulative Verteilungsfunktion (ECDF)", xlab="Werte")
+#Compute using the cumulative frequency distribution the proportion of response times
+less_equal_800 <- tibble_values %>% filter(Werte <= 800) 
+ecdf_less_equal_800 <- ecdf(less_equal_800$Werte)
+plot(ecdf_less_equal_800)
+
+grater_than_725 <- tibble_values %>% filter(Werte >= 725)
+greater_and_less <- tibble_values %>% filter(Werte >= 642 & Werte <= 777)
+equal_696 <- tibble_values %>% filter(Werte == 696)
+  
+
 
 #Aufgabe 4
 obs <- tibble(Number = c(1:8), abs_freq = c(5, 4, 1, 7, 2, 3, 1, 2))
