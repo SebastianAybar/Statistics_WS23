@@ -21,7 +21,6 @@ elections <- elections %>%
 #results in 2013 and 2017 with an appropriate bar chart.
 pie(elections$Results_2017, labels = elections$Party)
 
-
 Results_2013 <- c(elections$Results_2013)
 Results_2017 <- c(elections$Results_2017)
 Party <- c(elections$Party)
@@ -57,7 +56,37 @@ plot(ecdf_less_equal_800)
 grater_than_725 <- tibble_values %>% filter(Werte >= 725)
 greater_and_less <- tibble_values %>% filter(Werte >= 642 & Werte <= 777)
 equal_696 <- tibble_values %>% filter(Werte == 696)
-  
+#Ist das so gemeint gewesen?
+
+#Hier habe ich wiederholt was bei Aufgabe 2a gefragt ist da hier nach "draw the distribution function" gefragt ist.
+#So wie ich verstanden habe moechte er hier ein histogramm und eine Verteilungsfunktion mit den richtigen class boundaries
+werte <- c(568, 577, 581, 640, 641, 645, 645, 657, 673, 673, 696, 703, 703, 703, 703, 720, 728, 729, 777, 808, 824, 825, 865, 875, 1007) 
+table_werte <- table(werte)
+tibble_distr_func <- tibble(values = as.integer(names(table_werte)),
+                            abs_freq = as.integer(table_werte),
+                            rel_freq = abs_freq / sum(table_werte),
+                            cum_freq = round(cumsum(rel_freq), 2))
+
+ecdf_daten <- ecdf(tibble_distr_func$values)
+plot(ecdf_daten)
+x_labels <- c(400, 500, 600, 700, 800, 900, 1000, 1100, 1200)
+#axis(1, at = , labels = x_labels)
+
+
+#Histogramm
+class_boundaries <- c(500, 600, 700, 800, 900, 1000, 1100)
+hist_data <- hist(werte, breaks = class_boundaries,
+                          xlab = "Werte",
+                          ylab = "Frequency",
+                          col = "Orange")
+
+
+
+new_class_boundaries <- c(500, 600, 900, 1000, 1200)
+hist_data <- hist(werte, breaks = new_class_boundaries,
+                          xlab = "Werte",
+                          ylab = "Frequency",
+                          col = "blue")
 
 
 #Aufgabe 4
