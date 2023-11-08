@@ -69,8 +69,7 @@ tibble_distr_func <- tibble(values = as.integer(names(table_werte)),
 
 ecdf_daten <- ecdf(tibble_distr_func$values)
 plot(ecdf_daten)
-x_labels <- c(400, 500, 600, 700, 800, 900, 1000, 1100, 1200)
-#axis(1, at = , labels = x_labels)
+
 
 
 #Histogramm
@@ -79,14 +78,25 @@ hist_data <- hist(werte, breaks = class_boundaries,
                           xlab = "Werte",
                           ylab = "Frequency",
                           col = "Orange")
+#so kann ich die Beschriftung der x-Achse verändern
+other_class_bound <- c(500, 550, 600, 700, 800, 900, 1000, 1100)
+axis(1, at = other_class_bound)
 
-
-
+#Warum bekomme ich hier so komische Werte in der Y-Achse?
 new_class_boundaries <- c(500, 600, 900, 1000, 1200)
 hist_data <- hist(werte, breaks = new_class_boundaries,
                           xlab = "Werte",
                           ylab = "Frequency",
                           col = "blue")
+
+
+
+
+
+
+
+
+
 
 
 #Aufgabe 4
