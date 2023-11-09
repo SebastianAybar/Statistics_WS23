@@ -89,11 +89,48 @@ hist_data <- hist(werte, breaks = new_class_boundaries,
                           ylab = "Frequency",
                           col = "blue")
 
+#Aufgabe 2.1
+#Make up data sets with 5 numbers each that have:
+#(a) the same mean but different standard deviations.
+data_1 <- rnorm(5, mean = 10, sd = 2)
+data_2 <- rnorm(5, mean = 10, sd = 8)
+
+#messy tibble der Daten
+tab_data <- tibble(num_1 = double(),
+                   num_2 = double(),
+                   num_3 = double(),
+                   num_4 = double(),
+                   num_5 = double())
+tab_data_fill <- tab_data %>% 
+  add_row(num_1 = data_1[1], num_2 = data_1[2], num_3 = data_1[3], num_4 = data_1[4], num_5 = data_1[5]) %>%
+  add_row(num_1 = data_2[1], num_2 = data_2[2], num_3 = data_2[3], num_4 = data_2[4], num_5 = data_2[5])
+
+#tidy tibble der Daten
+tidy_data <- tibble(data_1 = rnorm(5, mean = 10, sd = 2),
+                    data_2 = rnorm(5, mean = 10, sd = 2))
+mean_data_1 <- mean(tidy_data$data_1)
+sd_data_1 <- sd(tidy_data$data_1)
+
+#(b) the same mean but different medians.
+
+#(c) the same median but different means.
 
 
-
-
-
+#Aufgabe 2.2
+#Consider a stock portfolio that began with a value of 1000 $ and had
+#annual returns of 13%, 22%, 12%, -5%, and -13%.
+#(a) Compute the value after each of the five years.
+df <- tibble(year = as.double(c(0, 1, 2, 3, 4, 5)),
+             annual_return = c(1, 1.13, 1.22, 1.12, 0.95, 0.87),
+             value = round(cumprod(c(1000, 1.13, 1.22, 1.12, 0.95, 0.87)), 2))
+#(b) Compute the annual rate of return.
+#Use the geometric mean
+vec <- c(1.13, 1.22, 1.12, 0.95, 0.87)
+geo_mean <- round(prod(vec)^(1/length(vec)), 2)
+#(c) Based on the result of (b), which annual returns do you expect in the next two years? 
+#Would it make sense to predict the annual return 20 years later?
+#Based on the result the next annual return will be 5%
+#Would it make sense to prdeict the annual return 20 years later? - verstehe diese Frage nicht
 
 
 
@@ -101,8 +138,14 @@ hist_data <- hist(werte, breaks = new_class_boundaries,
 
 #Aufgabe 4
 obs <- tibble(Number = c(1:8), abs_freq = c(5, 4, 1, 7, 2, 3, 1, 2))
-arith_mean <- mean(obs$abs_freq)
-geometric_mean <- exp(mean(log(obs$abs_freq)))
+vec_for_geo_mean <- obs$Number^obs$abs_freq
+geometric_mean <- prod(vec_for_geo_mean)^(1/sum(obs$abs_freq))
+#Test
+vec <- c(1,1,1,1,1,2,2,2,2,3,4,4,4,4,4,4,4,5,5,6,6,6,7,8,8)
+cum_prod <- prod(vec)
+geometric_mean <- cum_prod^(1/length(vec))
+
+
 
 
 
