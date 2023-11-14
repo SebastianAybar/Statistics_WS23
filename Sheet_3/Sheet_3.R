@@ -149,6 +149,26 @@ vec_repeated <- rep(obs$Number, obs$abs_freq)
 vec_for_harmonic_mean <- c(1/vec_repeated)
 harmonic_mean <- length(vec_for_harmonic_mean)/sum(vec_for_harmonic_mean)
 
+#Aufgabe 3
+#Given are the observations 4, 3, 2, 4, 10. Calculate the mean, median, mode, 20%Quantile and trimmed 40%Mean
+obs <- c(4, 3, 2, 4, 10)
+mean_obs <- mean(obs)
+trimmed_mean <- mean(obs, trim = 0.20)
+median_obs <- median(obs)
+quantile_20 <- quantile(obs, probs = 0.2)
+#mode kalkulieren
+mode <- obs %>% 
+  as_tibble() %>%
+  group_by(value) %>%
+  summarise(abs_freq = n()) %>%
+  filter(abs_freq == max(abs_freq)) %>%
+  pull(value)
+
+
+
+  
+  
+
 
 
 
