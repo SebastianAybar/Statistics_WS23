@@ -133,9 +133,6 @@ geo_mean <- round(prod(vec)^(1/length(vec)), 2)
 #Would it make sense to prdeict the annual return 20 years later? - verstehe diese Frage nicht
 
 
-
-
-
 #Aufgabe 4
 obs <- tibble(Number = c(1:8), abs_freq = c(5, 4, 1, 7, 2, 3, 1, 2))
 vec_for_geo_mean <- obs$Number^obs$abs_freq
@@ -144,6 +141,13 @@ geometric_mean <- prod(vec_for_geo_mean)^(1/sum(obs$abs_freq))
 vec <- c(1,1,1,1,1,2,2,2,2,3,4,4,4,4,4,4,4,5,5,6,6,6,7,8,8)
 cum_prod <- prod(vec)
 geometric_mean <- cum_prod^(1/length(vec))
+#arithemtic mean
+vec_for_arith_mean <- rep(obs$Number, obs$abs_freq) 
+arith_mean <- sum(vec_for_arith_mean)/length(vec_for_arith_mean)
+#harmonic mean
+vec_repeated <- rep(obs$Number, obs$abs_freq)
+vec_for_harmonic_mean <- c(1/vec_repeated)
+harmonic_mean <- length(vec_for_harmonic_mean)/sum(vec_for_harmonic_mean)
 
 
 
