@@ -164,9 +164,30 @@ mode <- obs %>%
   filter(abs_freq == max(abs_freq)) %>%
   pull(value)
 
+#Aufgabe 5
+#Generate a random sample of size n from 1, 2, ..., 20
+n <- 25
+random_sample <- sample(1:20, size = n, replace = TRUE)
+#(a) and determine the Empirical Distribution Function
+ecdf_random_sample <- ecdf(random_sample)
+plot(ecdf_random_sample)
+#(b) Determine a R function to find quantile according to the definition given in the lecture.
+#Funktion
+my.quantile <- function(x,p){
+xsort <- sort(x)
+return(xsort[ceiling(length(x)*p)])
+}
+quantile_aus_function <- my.quantile(random_sample, 0.30)
+#ohne Funktion
+sorted_random_sample <- sort(random_sample)
+percentile = 0.30
+index <- percentile * length(sorted_random_sample)
+fraction_index <- index - floor(index)
+quantile <- floor(sorted_random_sample[index]) + (ceiling(sorted_random_sample[index]) - floor(sorted_random_sample[index])) * fraction_index
+print(length(sorted_random_sample)-1 * percentile + 1)
+#Funktion aus Library
+quantile_aus_libr <- quantile(sorted_random_sample, 0.30)
 
-
-  
   
 
 
