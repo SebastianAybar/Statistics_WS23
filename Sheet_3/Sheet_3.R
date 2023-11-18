@@ -173,7 +173,7 @@ calc.quantile <- function(vector,percentile){
 }
 quantile_aus_eigener_funktion <- calc.quantile(vector = sorted_random_sample,percentile = 0.30)
 #Funktion aus Library
-quantile_aus_libr <- quantile(sorted_random_sample,0.30,type = 1)
+quantile_aus_libr <- quantile(sorted_random_sample,0.30, type = 1)
 #default ist type7 =>lineare interpoltaion
 quantile_aus_libr <- quantile(sorted_random_sample,0.30)
 #(c)

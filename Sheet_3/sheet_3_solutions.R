@@ -1,4 +1,4 @@
-#sheet 3 solutions
+#sheet 3
 library(tidyverse)
 
 # a) Generate a random sample of size n from 1, 2, ..., 20
