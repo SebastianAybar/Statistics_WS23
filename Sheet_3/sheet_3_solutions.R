@@ -29,7 +29,7 @@ quantile(x, probs = seq(0,1, by=0.05), type = 1)
 # with n = sample size. Visualize the evalution by a diagram 
 # which contain these points, the linear interpolation and the
 # R quantile of type 7 of order 0, 0.5, ..., 1
-plot(y=sort(x)), 
+plot(y=sort(x), 
      x=(0:(s.size-1))/(s.size-1),
      type="b", 
      col = "black",

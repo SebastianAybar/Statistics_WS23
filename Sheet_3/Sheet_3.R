@@ -196,23 +196,23 @@ tibble_sample <- tibble(obs = as.integer(names(table_sample)),
 #hierbei sind die x und y Achse genau anders rum als in der Musterloesung
 ecdf_data <- ecdf(tibble_sample$obs)
 plot(ecdf_data)
-#ich plotte normal, denn fuer die lineare interpolation brauche ich die Obs auf der X-Achse. Oder?
-
-plot(y=sorted_random_sample, 
-     x=(0:(s.size-1))/(s.size-1),
-     type="b", 
-     col = "black",
-     ylim=c(0,22), 
-     xlim=c(-0.1,1.1),
-     xlab="p", 
-     ylab="p quantile",
-     main="quantiles type=7",
-     sub = "black = linear interpolation, red = type 7 quantiles")
-
-
-
-
-
+#ich plotte normal, denn fuer die lineare interpolation brauche ich die Obs auf der Y-Achse.
+#wir stellen die Werte des Samples in der Y-Achse dar. Als jeweils zugehoerigen X-Wert nehmen 
+#wir folgenden Vector  [0, 0.11, 0.22, 0.33, 0.44, 0.56, 0.67, 0.78, 0.89, 1.00]
+plot(y = sorted_random_sample, 
+     x = 0:(sample_size-1)/(sample_size-1),
+     type = "b")
+#Wir fuegen nachtraeglich noch Punkte hinzu, welche das Type 7 Quantile des Samples in 5% 
+#Schritten darstellt. Wichtig ist hierbei das der vector der x-Achse gleich gross ist wie
+#der Vector der Y-Achse denn wir brauchen ja immer einen x und einen y Wert
+#type b im Diagram zeigt uns die lineare Interpolation und dadurch ist gut zu sehen dass
+#das type=7-Quantile auf der linearen Interpolation basiert.
+points(x = seq(0,1, by = 0.05), 
+       y = quantile(sorted_random_sample, prob = seq(0,1, by = 0.05)), 
+       col = "red")
+#Warum genau muessen wir die Formel aus dem Sheet hier als x Werte verwenden?
+x <- 0:(sample_size-1)/(sample_size-1)
+#Da wir ja die gleiche Anzahl an X und Y Werten nehmen muessen
 
 
 
