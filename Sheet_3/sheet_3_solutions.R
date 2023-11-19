@@ -1,4 +1,4 @@
-#sheet 3
+#Aufgabe 2.5.
 library(tidyverse)
 
 # a) Generate a random sample of size n from 1, 2, ..., 20
@@ -90,12 +90,51 @@ points(y=seq(0,1, by=0.02), x=quantile(x,prob=seq(0,1, by=0.02), type=7), col="b
 points(y=seq(0,1, by=0.02), x=quantile(x,prob=seq(0,1, by=0.02), type=1), col="blue")
 lines(x=emp.dist$obs, y=emp.dist$cum.rel.freq, type="s",col="blue")
 
-# Observations
-# a) The deviations between the empirical distribution function F and the 
-# function H decrease. For big sample sizes both function are more or less
-# identical.
-# b) The feasible values of type 1 quantiles are {1,2,...20} whereas
-# quantiles of type 7 can take every value from the interval [1,20].
-# c) Type 1 quantiles are suited for discrete variables. In case of continous 
-# variables both types can be used and exspecially for large sample sizes the
-# values are more or less identical.
+#Beobachtungen
+#a) Die Abweichungen zwischen der empirischen Verteilungsfunktion F und der Funktion H nehmen ab. 
+#Für große Stichprobengrößen sind beide Funktionen mehr oder weniger identisch.
+#b) Die realisierbaren Werte der Quantile vom Typ 1 sind {1,2,...20}, während
+#Quantile des Typs 7 können jeden Wert aus dem Intervall [1,20] annehmen.
+#c) Quantile vom Typ 1 sind für diskrete Variablen geeignet. Im Falle von kontinuierlichen 
+#Variablen können beide Typen verwendet werden und insbesondere bei großen Stichprobengrößen sind die
+#Werte mehr oder weniger identisch sind.
+
+#Aufgabe 2.6.
+data1 <- tibble(
+  type = c(rep("non-player",10), rep("beginner",10),rep("tournament",10)),
+  res = c(22.1,22.3,26.2,29.6,31.7,33.5,38.9,39.7,43.2,43.2,
+          32.5,37.1,39.1,40.5,45.5,51.3,52.6,55.7,55.9,57.7,
+          40.1,45.6,51.2,56.4,58.1,71.1,74.9,75.9,80.3,85.3))
+
+# alternative: tidy the messy dataset data
+data1 %>% 
+  as_tibble() %>%
+  gather(key = "type", value = "res")
+
+measures <- data1 %>%
+  group_by(type) %>%
+  summarise(Min = min(res),Max=max(res),
+            q1=quantile(res,0.25,type=1),q2=quantile(res,0.5,type=1),
+            q3=quantile(res,0.75,type=1),
+            Mean=mean(res),variance=var(res),
+            interquartile_range=q3-q1)
+measures
+
+# Boxplots
+boxplot(data[,1],data[,2],data[,3], names=colnames(data),
+        main = "side by side boxplots",
+        xlab = "player type", ylab = "rem. chess positions")
+
+# Boxplots with ggplot
+boxplot(res ~ type, data = data1)
+# solution with ggplot()
+# changing the order in the side by side boxplots by adding a factor to type
+data$type <- factor(data$type, levels = c("non-player", "beginner","tournament"))
+ggplot(data = data1) + 
+  geom_boxplot(mapping = aes(x=type, y=res, group = type)) +
+  geom_point(mapping = aes(x=type,y=res,group=type)) +
+  xlab("player type") +
+  ylab("rem. chess positions") +
+  ggtitle("side by side boxplots with marked values") +
+  theme_bw()
+

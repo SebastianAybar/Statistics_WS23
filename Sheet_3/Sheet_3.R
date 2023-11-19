@@ -192,7 +192,7 @@ tibble_sample <- tibble(obs = as.integer(names(table_sample)),
                         abs_freq = as.integer(table_sample),
                         rel_freq = abs_freq/sum(abs_freq),
                         cum_freq = cumsum(rel_freq))
-
+#(d)
 #hierbei sind die x und y Achse genau anders rum als in der Musterloesung
 ecdf_data <- ecdf(tibble_sample$obs)
 plot(ecdf_data)
@@ -211,8 +211,64 @@ points(x = seq(0,1, by = 0.05),
        y = quantile(sorted_random_sample, prob = seq(0,1, by = 0.05)), 
        col = "red")
 #Warum genau muessen wir die Formel aus dem Sheet hier als x Werte verwenden?
-x <- 0:(sample_size-1)/(sample_size-1)
 #Da wir ja die gleiche Anzahl an X und Y Werten nehmen muessen
+x <- 0:(sample_size-1)/(sample_size-1)
+#(e)
+tibble_quantiles <- tibble(points = seq(0,1, by = 0.01),
+                           type_7_quantile = quantile(sorted_random_sample, prob = seq(0,1, by = 0.01)),
+                           type_1_quantile = quantile(sorted_random_sample, prob = seq(0,1, by = 0.01), type = 1))
+#hier wuerde ich gerne nochmal eine Probe machen in dem ich fuer das type_7_quantile in die formel fuer die 
+#lineare interpolation einsetze
+sample_size <-10
+sorted_random_sample <- sort(sample(x = seq(1,20,1), 
+                                    size = sample_size, 
+                                    replace = TRUE))
+plot(x = sorted_random_sample,
+     y = 0:(sample_size-1)/(sample_size-1),
+     type = "b",
+     sub = "black = type 7, blue = type 1",
+     main = "comparison type 1 and type 7 quantile",
+     xlim=c(0,22), 
+     ylim=c(-0.1,1.1))
+other_x_axis_boundaries <- c(0:22)
+axis(1,at = other_x_axis_boundaries)
+#Punkte des type 1 Quantiles
+points(y = seq(0,1,0.05), x = quantile(sorted_random_sample, probs = seq(0,1,0.05), type = 1), col = "blue")
+#Punkte des type 7 Quantiles
+points(y = seq(0,1,0.05), x = quantile(sorted_random_sample, probs = seq(0,1,0.05)), col = "red")
+#Was ist eigentlich wenn ich das hier mache?
+ecdf_data <- ecdf(tibble_sample$obs)
+plot(ecdf_data)
+points(y = seq(0,1,0.05), x = quantile(sorted_random_sample, probs = seq(0,1,0.05), type = 1), col = "blue")
+points(y = seq(0,1,0.05), x = quantile(sorted_random_sample, probs = seq(0,1,0.05)), col = "red")
+#(f) umso groesser das sample ist umso genauer sind die werte aus dem type 1 Quantile an den echten werten
+#Aufgabe2.6
+tidy_tibble_of_data <- tibble(row_id = rep(1:10,3),
+                              player_type = c(rep("non-player", 10), rep("beginner", 10), rep("tournament", 10)),
+                              value = c(22.1,22.3,26.2,29.6,31.7,33.5,38.9,39.7,43.2,43.2,
+                                        32.5,37.1,39.1,40.5,45.5,51.3,52.6,55.7,55.9,57.7,
+                                        40.1,45.6,51.2,56.4,58.1,71.1,74.9,75.9,80.3,85.3))
+messy_tibble_of_data <- spread(tidy_tibble_of_data, key = player_type, value = value)
+#der gleiche dataframe aber anders erstellt
+data <- tibble(non_player = c(22.1,22.3,26.2,29.6,31.7,33.5,38.9,39.7,43.2,43.2),
+               beginer = c(32.5,37.1,39.1,40.5,45.5,51.3,52.6,55.7,55.9,57.7),
+               tournament = c(40.1,45.6,51.2,56.4,58.1,71.1,74.9,75.9,80.3,85.3))
+#Compare the performance for each group by computing mean, median,
+#min, max, quartiles, interquartile range, variance. Create side-by-side
+#box plots for these three groups. What can you say about the differences between these groups from the box plots?
+measures <- tidy_tibble_of_data %>% 
+  group_by(player_type) %>%
+  summarise(min = min(value),
+            max = max(value),
+            mean = mean(value),
+            median = median(value),
+            var = var(value),
+            q1 = quantile(value, 0.25, type = 1),
+            q2 = quantile(value, 0.50, type = 1),
+            q3 = quantile(value, 0.75, type = 1),
+            interquartile_range = q3 - q1)
+
+
 
 
 
