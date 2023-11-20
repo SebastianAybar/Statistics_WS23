@@ -121,7 +121,8 @@ measures <- data1 %>%
 measures
 
 # Boxplots
-boxplot(data[,1],data[,2],data[,3], names=colnames(data),
+boxplot(data1[,1],data1[,2],data1[,3], 
+        names=colnames(data1),
         main = "side by side boxplots",
         xlab = "player type", ylab = "rem. chess positions")
 

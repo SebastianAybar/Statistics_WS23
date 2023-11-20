@@ -136,9 +136,9 @@ students_passed <- df %>% select(id, sex, grade) %>% filter(grade <= 4) %>% arra
 
 #Calculate the mean, minimum, maximum and median of the variable sum of scores grouped by the variable sex.
 clacultaions <- df %>% group_by(sex) %>% summarise(Durchschnitt = mean(score_sum),
-                                         Minimum = min(score_sum),
-                                         Maximum = max(score_sum),
-                                         median(score_sum))
+                                                   Minimum = min(score_sum),
+                                                   Maximum = max(score_sum),
+                                                   median(score_sum))
 
 #Aufgabe 4
 no <- 30

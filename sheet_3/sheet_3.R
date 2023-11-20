@@ -1,6 +1,7 @@
 library("tidyverse")
 library("tidyr")
 library("dplyr")
+library("ggplot2")
 
 #sheet 3
 #Aufgabe1
@@ -267,6 +268,18 @@ measures <- tidy_tibble_of_data %>%
             q2 = quantile(value, 0.50, type = 1),
             q3 = quantile(value, 0.75, type = 1),
             interquartile_range = q3 - q1)
+#simple Boxplot with boxplot()
+boxplot(value ~ player_type, data = tidy_tibble_of_data)
+#Boxplot with ggplot
+ggplot(data = tidy_tibble_of_data) +
+  geom_boxplot(mapping = aes(x = player_type, y = value, group = player_type)) +
+  geom_point(mapping = aes(x = player_type, y = value, group = player_type)) +
+  scale_y_continuous(breaks = seq(0, 100, by = 10)) +
+  labs(title = "",
+       x = "",
+       y = "")
+
+#Aufgabe2.7
 
 
 
