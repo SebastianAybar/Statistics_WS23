@@ -280,6 +280,82 @@ ggplot(data = tidy_tibble_of_data) +
        y = "")
 
 #Aufgabe2.7
+#(a) Calculate the arithmetic mean and median for both distance and altitude.
+#(b) Calculate the interquartile range and standard deviation for both variables. 
+#Compare the variability of both variables.
+hikes <-  tibble(year = seq(1,10,1),
+                 distance = c(12.5, 29.9, 14.8, 18.7, 7.6, 16.2, 16.5, 27.4, 12.1, 17.5),
+                 altitude = c(342, 1245, 502, 555, 398, 670, 796, 912, 238, 466))
+
+measures <- tibble(mean_dist = mean(hikes$distance),
+                   median_dist = median(hikes$altitude),
+                   q1_dist = quantile(sort(hikes$distance), 0.25, type = 1),
+                   q2_dist = quantile(sort(hikes$distance), 0.50, type = 1),
+                   q3_dist = quantile(sort(hikes$distance), 0.75, type = 1),
+                   interquartile_dist = q3_dist - q1_dist,
+                   sd_dist = sd(hikes$distance),
+                   var_dist = var(hikes$distance),
+                   mean_alt = mean(hikes$altitude),
+                   median_alt = median(hikes$altitude),
+                   q1_alt = quantile(sort(hikes$altitude), 0.25, type = 1),
+                   q2_alt = quantile(sort(hikes$altitude), 0.50, type = 1),
+                   q3_alt = quantile(sort(hikes$altitude), 0.75, type = 1),
+                   interquartile_alt = q3_alt - q1_alt,
+                   sd_alt = sd(hikes$altitude),
+                   var_alt = var(hikes$altitude))
+
+#Aufgabe2.8
+#(a)
+?mpg()
+#(b) Select only the variables displ (engine displacement) and hwy (highway miles per gallon) from the data set. 
+#Group the values of the variable displ into the the groups
+#“low” (1 < displ ≤ 3), “medium” (3 < displ ≤ 5) and “big” (5 < displ ≤ 8). 
+#Use the cut() command to do this. 
+#Add a column displ class which denotes the belonging to one of the groups
+mpg_data <- mpg
+df <- mpg_data %>%
+  tibble() %>%
+  select(displ, hwy) %>%
+  mutate(displ_class = cut(x = displ,
+                           breaks = c(1, 3, 5, 8),
+                           labels = c("niedrig", "mittel", "gross"),
+                           include.lowest = TRUE))
+#(c) Calculate the mean, minimum, maximum and the three quartile of
+#the variable hwy depending on the values of displ and depending on displ class.
+measures_df <- df %>%
+  group_by(displ) %>%
+  summarise(mean = mean(hwy),
+            min = min(hwy),
+            max = max(hwy),
+            q1 = quantile(hwy, 0.25, type = 1),
+            q2 = quantile(hwy, 0.50, type = 1),
+            q3 = quantile(hwy, 0.75, type = 1),
+            n_obs = n())
+#Aus der Aufgabenstellung (b) und (c) war sehr schwer rauszuerkennen wie die tibble am Ende aussehen soll
+
+#(c)Boxplots
+boxplot(df$hwy ~ df$displ, data = df)
+boxplot(df$hwy ~ df$displ_class, data = df)
+#Man kann deutlich erkennen dass die Boxplots aussagekraeftiger sind wenn nach der dsiplay class gruppiert wird
+#anstatt nach den Hubraum zu gruppieren. 
+#Boxplots mit ggplot
+ggplot(data = df) +
+  geom_boxplot(mapping = aes(x = df$displ, y = df$hwy, group = displ)) +
+  geom_point(mapping = aes(x = df$displ, y = df$hwy, group = displ))
+
+ggplot(data = df) +
+  geom_boxplot(mapping = aes(x = df$displ_class, y = df$hwy, group = displ_class)) +
+  geom_point(mapping = aes(x = df$displ_class, y = df$hwy, group = displ_class))
+  
+#Aufgabe3.1
+#Antwort: a) 3, b) 2, c) 2, d) 2, e) 3
+#         f) verstehe nicht warum die alle symmetric sind, woran erkenne ich das?
+
+#Aufgabe3.2 left skewed
+
+
+
+
 
 
 

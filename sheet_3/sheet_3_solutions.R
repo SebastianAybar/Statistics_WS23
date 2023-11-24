@@ -130,7 +130,7 @@ boxplot(data1[,1],data1[,2],data1[,3],
 boxplot(res ~ type, data = data1)
 # solution with ggplot()
 # changing the order in the side by side boxplots by adding a factor to type
-data$type <- factor(data$type, levels = c("non-player", "beginner","tournament"))
+data1$type <- factor(data1$type, levels = c("non-player", "beginner","tournament"))
 ggplot(data = data1) + 
   geom_boxplot(mapping = aes(x=type, y=res, group = type)) +
   geom_point(mapping = aes(x=type,y=res,group=type)) +
@@ -138,4 +138,121 @@ ggplot(data = data1) +
   ylab("rem. chess positions") +
   ggtitle("side by side boxplots with marked values") +
   theme_bw()
+
+#Aufgabe 2.7
+# generate the data
+distance <- c(12.5,29.9,14.8,18.7,7.6,16.2,16.5,27.4,12.1,17.5)
+altitude <- c(342,1245,502,555,398,670,796,912,238,466)
+# sorted data
+sort_dist <- sort(distance)
+sort_alt <- sort(altitude)
+
+# mean and median
+mean_dist <- mean(distance)
+mean_alt <- mean(altitude)
+
+# R offers several ways of calculating quantiles. Use type=1 
+# to apply the method we have introduced.
+quantiles_dist <- quantile(distance,probs = c(0.25,0.5,0.75),type=1)
+quantiles_alt <- quantile(altitude,probs = c(0.25,0.5,0.75),type=1)
+
+# interquartial range
+interquartile_dist <- quantile(distance,probs=0.75,type=1)- quantile(distance,probs=0.25,type=1)
+interquartile_alt <- quantile(altitude,probs=0.75,type=1)- quantile(altitude,probs=0.25,type=1)
+
+# shape of the distributions
+# distance: Q2 closer to Q3, i.e. distance might be left skewed
+# altitude: Q2 closer to Q1, i.e. distance might be right skewed
+boxplot(altitude, main = "altitude", xlab="altitude")
+boxplot(distance, main = "distance", xlab="distance")
+boxplot(altitude, distance, 
+        main = "altitude and distance",
+        names = c("distance", "altitude"))
+
+# variance and standard deviation
+var_dist <- var(distance)
+var_alt <- var(altitude)
+sd_dist <- sd(distance)
+sd_alt <- sd(altitude)
+
+# make the values comparable
+distance.norm <- distance/mean(distance)
+altitude.norm <- altitude/mean(altitude)
+boxplot(altitude.norm, distance.norm, 
+        main = "altitude and distance - normed",
+        names = c("distance.norm", "altitude.norm"))
+
+# coefficients of variation
+sd(distance)/mean(distance) # = sd(distance.norm)
+sd(altitude)/mean(altitude) # = sd(altitude.norm)
+
+
+
+#Aufgabe2.8.
+# inspect the description of the data set
+?mpg()
+
+# select only the variables displ and hwy and add 
+# a colummn displ_class which denotes the belonging
+# to one of the groups 
+# low (1 < displ <= 3), medium (3 < displ <= 5),
+# big (5 < displ <= 8)
+tab <-
+  mpg %>%
+  select(displ,hwy) %>%
+  mutate(displ_class = 
+           cut(displ,breaks = c(1,3,5,8),
+               labels = c("small","medium","big"))
+  )
+tab
+
+# calculate mean, min, max Q1, Q2 and Q3 of the variable
+# hwy grouped by the values of displ.
+stat_hwy_displ <-
+  tab %>%
+  group_by(displ) %>%
+  summarise(mean=mean(hwy),
+            min=min(hwy),
+            max=max(hwy),
+            q1=quantile(hwy,0.25, type=1),
+            q2=quantile(hwy,0.5, type=1),
+            q3=quantile(hwy,0.75, type=1),
+            nobs = n())
+
+# calculate mean, min, max Q1, Q2 and Q3 of the variable
+# hwy grouped by the values of displ_class.
+stat_hwy_class <-
+  tab %>%
+  group_by(displ_class) %>%
+  summarise(mean(hwy),
+            min(hwy),
+            max(hwy),
+            q1=quantile(hwy,0.25, type=2),
+            q2=quantile(hwy,0.5, type=2),
+            q3=quantile(hwy,0.75, type=2),
+            nobs = n()
+  )
+stat_hwy_class
+
+# boxplots of hwy grouped by displ
+boxplot(hwy ~ displ, data = tab, xlab = "displ", ylab = "hwy")
+# using ggplot
+ggplot(data = tab) +
+  geom_boxplot(mapping = aes(group = displ, x = displ, y = hwy)) + 
+  theme_bw()
+
+# boxplots of hwy grouped by displ_class
+boxplot(hwy ~ displ_class, data = tab, xlab = "displ_class", ylab = "hwy")
+# using ggplot
+ggplot(data = tab) +
+  geom_boxplot(mapping = aes(group = displ_class, x = displ_class, y = hwy)) +
+  #  geom_point(mapping = aes(group = displ_class, x = displ_class, y = hwy)) +
+  theme_bw()
+
+# both boxplots together
+par(mfrow = c(1,2))
+boxplot(hwy ~ displ, data = tab, xlab = "displ", ylab = "hwy")
+boxplot(hwy ~ displ_class, data = tab, xlab = "displ_class", ylab = "hwy")
+# zuruecksetzen von mfrow
+par(mfrow = c(1,1))
 
