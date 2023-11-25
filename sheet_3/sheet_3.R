@@ -1,10 +1,12 @@
+#sheet 3
+
 library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("ggplot2")
 
-#sheet 3
-#Aufgabe1
+
+#Aufgabe 1.1.
 elections <- tibble(Party = character(),Results_2013 = double(),Results_2017 = double())
 elections <- elections %>% 
   add_row(Party = "CDU",Results_2013 = 26.8,Results_2017 = 34.1) %>% 
@@ -32,7 +34,7 @@ barplot(matrix_t,main = "ElectionResults2013and2017",
         beside = TRUE,
         names.arg = Party)
 
-#Aufgabe2
+#Aufgabe 1.2.
 values <- c(568,577,581,640,641,645,657,673,696,703,720,728,729,777,808,824,825,865,875,1007)
 table_values <- table(values)
 tibble_values <- tibble(Werte = as.integer(names(table_values)),
@@ -80,7 +82,7 @@ hist_data <- hist(werte,breaks = new_class_boundaries,
                 ylab = "Frequency",
                 col = "blue")
 
-#Aufgabe2.1
+#Aufgabe 2.1.
 #(a)
 data_1 <- rnorm(5,mean = 10,sd = 2)
 data_2 <- rnorm(5,mean = 10,sd = 8)
@@ -102,22 +104,20 @@ tidy_data <- tibble(data_1 = rnorm(5,mean = 10,sd = 2),
 mean_data_1 <- mean(tidy_data$data_1)
 sd_data_1 <- sd(tidy_data$data_1)
 
+#Fuer b unc c hat er einfach manuell erstellt
 #(b)
-
 #(c)
 
 
-#Aufgabe2.2
+#Aufgabe 2.2.
 df <- tibble(year = as.double(c(0,1,2,3,4,5)),
            annual_return = c(1,1.13,1.22,1.12,0.95,0.87),
            value = round(cumprod(c(1000,1.13,1.22,1.12,0.95,0.87)),2))
 #(b)
 vec <- c(1.13,1.22,1.12,0.95,0.87)
 geo_mean <- round(prod(vec)^(1/length(vec)),2)
-#(c)
 
-
-#Aufgabe2.4
+#Aufgabe2.4.
 obs <- tibble(Number = c(1:8),abs_freq = c(5,4,1,7,2,3,1,2))
 vec_for_geo_mean <- obs$Number^obs$abs_freq
 geometric_mean <- prod(vec_for_geo_mean)^(1/sum(obs$abs_freq))
@@ -133,7 +133,7 @@ vec_repeated <- rep(obs$Number,obs$abs_freq)
 vec_for_harmonic_mean <- c(1/vec_repeated)
 harmonic_mean <- length(vec_for_harmonic_mean)/sum(vec_for_harmonic_mean)
 
-#Aufgabe2.3
+#Aufgabe 2.3.
 obs <- c(4,3,2,4,10)
 mean_obs <- mean(obs)
 trimmed_mean <- mean(obs,trim = 0.20)
@@ -147,7 +147,7 @@ mode <- obs %>%
   filter(abs_freq == max(abs_freq)) %>% 
   pull(value)
 
-#Aufgabe2.5
+#Aufgabe 2.5.
 n <- 25
 random_sample <- sample(1:20,size = n,replace = TRUE)
 #(a)
@@ -279,7 +279,7 @@ ggplot(data = tidy_tibble_of_data) +
        x = "",
        y = "")
 
-#Aufgabe2.7
+#Aufgabe 2.7.
 #(a) Calculate the arithmetic mean and median for both distance and altitude.
 #(b) Calculate the interquartile range and standard deviation for both variables. 
 #Compare the variability of both variables.
@@ -304,7 +304,7 @@ measures <- tibble(mean_dist = mean(hikes$distance),
                    sd_alt = sd(hikes$altitude),
                    var_alt = var(hikes$altitude))
 
-#Aufgabe2.8
+#Aufgabe 2.8.
 #(a)
 ?mpg()
 #(b) Select only the variables displ (engine displacement) and hwy (highway miles per gallon) from the data set. 
@@ -347,11 +347,12 @@ ggplot(data = df) +
   geom_boxplot(mapping = aes(x = df$displ_class, y = df$hwy, group = displ_class)) +
   geom_point(mapping = aes(x = df$displ_class, y = df$hwy, group = displ_class))
   
-#Aufgabe3.1
+#Aufgabe 3.1.
 #Antwort: a) 3, b) 2, c) 2, d) 2, e) 3
 #         f) verstehe nicht warum die alle symmetric sind, woran erkenne ich das?
 
-#Aufgabe3.2 left skewed
+#Aufgabe 3.2. 
+#left skewed
 
 
 
