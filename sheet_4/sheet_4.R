@@ -36,6 +36,44 @@ plot(x = y, y = x,
      ylim = c(0,10))
 abline(linear_regression)
 
+#Aufgabe 1.2.
+x <- c(10, 9, 9, 11, 10, 10, 6, 10, 8, 12, 9, 4, 12)
+y <- c(5, 5, 4, 6, 7, 5, 3, 4, 5, 7, 4, 2, 8)
+#(a)
+plot(x = x, 
+     y = y,
+     xlim = c(0,10),
+     ylim = c(0,10))
+#(b)
+#positive
+#(c)
+cov <- cov(x = x, y = y)
+cor <- cor(x = x, y = y)
+#(d) y = ax + b
+linear_regression <- lm(y ~ x)
+plot(x = x, y = y,
+     xlim = c(0,12),
+     ylim = c(0,12))
+abline(linear_regression)
+#wir speichern uns die Koeffizienten der Regressionsgeradengleichung y = a + bx
+#a ist die Steigung der Regressionsgeraden und b der Y-Achsenabschnitt
+a <- linear_regression$coefficients[1]
+b <- linear_regression$coefficients[2]
+
+#(e)
+y <- a + b * 8
+
+#Tibble mit  den restlichen Werten und den fitted Values
+data <- tibble(time_spend = x,
+               exam_score = y, 
+               residual_values = linear_regression$residuals,
+               predicted_scores = linear_regression$fitted.values)
+
+#(g)
+#Bestimmtheitsmass/Determinationskoeffizient
+B <- cor(results$time,results$score)^2
+
+
 
 
 
