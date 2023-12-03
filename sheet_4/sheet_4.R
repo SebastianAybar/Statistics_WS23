@@ -73,7 +73,30 @@ data <- tibble(time_spend = x,
 #Bestimmtheitsmass/Determinationskoeffizient
 B <- cor(results$time,results$score)^2
 
+#Aufgabe 2.1.
+#(b) no!
+#(a)
+data <- tibble(cafe = c(seq(1,5,1)),
+               X = c(3,8,7,9,5),
+               Y = c(6,7,10,8,4))
 
+spearman_cor <- cor(data$X, data$Y, method = "spearman")
+#(c)?
 
+#Aufgabe 2.1.
+#(a)
+#(b)
+values <- tibble(Pass = c(40,20,10),
+               Fail = c(10,10,10))
+#compute expected values
+expected_values <- chisq.test(values)$expected
+#compute chi squared
+chi_squared <- chisq.test(values)$statistic
+chi_squared <- sum((expected_values-values)^2/expected_values)
+#compute contigency coefficiant C
+C <- (chi_squared/(sum(values$Pass)+sum(values$Fail)+chi_squared))^0.5
+#compute C corrected
+C_star <- min(length(values$Pass), ncol(values))
+C_corr <- C * (C_star/(C_star-1))^0.5
 
 
