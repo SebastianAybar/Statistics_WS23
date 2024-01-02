@@ -39,6 +39,19 @@ a <- phyper(15, m = red_balls, n = total_balls - red_balls, k = drawn_balls)
 b <- phyper(5-1, m = red_balls, n = total_balls - red_balls, k = drawn_balls)
 x <- a-b
 
+#Augabe 2.1.(a)
+x_values <- seq(-10, 10, .1)
+density_values <- dnorm(x_values, sd = 1.5, mean = 2.5)
+plot(x_values, density_values)
+prob_1 <- pnorm(2, sd = 1.5, mean = 2.5)
+prob_2 <- 1 - pnorm(3.1, sd = 1.5, mean = 2.5)
+prob_3 <- pnorm(3.5, sd = 1.5, mean = 2.5) - pnorm(1, sd = 1.5, mean = 2.5)
+plot(x_values, pnorm(x_values, sd = 1.5, mean = 2.5), type = "l")
+x <- seq(0,1,.02)
+y <- qnorm(x, sd = 1.5, mean = 2.5)
+plot(x, y, type = "l")
+
+
 
 
 
