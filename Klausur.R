@@ -3,6 +3,7 @@ library("tidyr")
 library("dplyr")
 library("ggplot2")
 
+#Descriptive Statistics
 #read the csv file into a tibble
 path_dataset <- "C:/Users/sebas/OneDrive/Dokumente/GitHub/Statistics_WS23/exam_data.csv"
 data_set <- read.csv(path_dataset) %>% as_tibble()
@@ -57,6 +58,7 @@ number_of_dropouts_as_tibble <- count(dropouts)
 #oder
 number_of_dropouts_as_int <- as.integer(count(dropouts))
 
+#bessere Lösung
 measures <- new_variable %>%
   mutate(dropout = if_else(grade <= 4, 0, 1)) %>%
   group_by(course) %>%
@@ -68,6 +70,47 @@ measures <- new_variable %>%
             q2 = quantile(score, 0.50, type = 1),
             q3 = quantile(score, 0.75, type = 1),
             dropout_rate = sum(dropout)/participants)
+# Create side by side boxplots of the score for each subject and
+#interpret the results
+boxplot(new_variable$score ~ new_variable$course, 
+        data = new_variable,
+        main = "Side by Side Boxplots",
+        xlab = "",
+        ylab = "score")
+
+# Determine the contingency table of the variables attempt 
+#and grade and determine the indifference table and chi-square value.
+contigency_table_observed <- chisq.test(new_variable$attempt, new_variable$grade)$observed %>%
+  addmargins()
+
+contigency_table_expected <- chisq.test(new_variable$attempt, new_variable$grade)$expected %>%
+  addmargins()
+
+X_squared <- chisq.test(new_variable$attempt, new_variable$grade)$statistic
+
+#Inferentielle Statistics
+#Aufgabe 4
+befragung <- c(1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0,
+               1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0,
+               0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0,
+               0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0,
+               0, 0, 1, 0, 1, 0, 0, 0)
+#(a)
+rel_freq_A <- sum(befragung) / length(befragung)
+expected_value <- length(befragung) * rel_freq_A
+
+#(c)
+p.hat <- rel_freq_A
+n <- 100
+q <- qnorm(1-alpha/2)
+#nach Formel per Hand
+u <- p.hat - q * sqrt(p.hat * (1-p.hat) / 100)
+o <- p.hat - q * sqrt(p.hat * (1-p.hat) / 100)
+#Alternativ
+binom.test(x=32, n=100, alternative = "two.sided", conf.level = 1-alpha)$conf.int
+t.test(befragung, alternative = "two.sided", conf.level = 1-alpha)
+
+
 
 
 

@@ -127,7 +127,7 @@ df <- df %>% mutate(score_sum = rowSums(select(df, score1, score2, score3)))
 df <- df %>% mutate(grade = if(score_sum <= 37) 5
                     else if(score_sum > 37 & score_sum <= 45) 4
                     else if(score_sum > 45 & score_sum <= 55) 3
-                    else if(score_sum > 55 & score_sum <=65) 2
+                    else if(score_sum > 55 & score_sum <= 65) 2
                     else (score_sum > 65))
 
 #Find the values of the variables id, sex and grade sorted by the values of sex of all students who have passed.
