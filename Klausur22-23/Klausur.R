@@ -110,7 +110,7 @@ o.apr <- p.hat - q * sqrt(p.hat * (1-p.hat) / 100)
 binom.test(x=32, n=100, alternative = "two.sided", conf.level = 1-alpha)$conf.int
 t.test(befragung, alternative = "two.sided", conf.level = 1-alpha)
 
-qnorm(1-0.05/2)
+
 
 
 
