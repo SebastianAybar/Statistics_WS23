@@ -104,7 +104,7 @@ qt(1-alpha/2, df = n-1)
 #Aufgabe 11
 sigma <- 1.8
 n <- 10
-q <- pnorm(2.81, sd = 1.8, mean = 6.72)
+q <- pnorm(2.81)
 
 
 
