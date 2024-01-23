@@ -1,9 +1,9 @@
+#SHEET 2
 library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("nycflights13")
 library("stringr")
-
 
 #Aufgabe
 #Was sind Observations, was sind Variables und wann ist ein Datensatz tidy
@@ -76,9 +76,6 @@ student3 <- student3 %>%
   add_row(name = "Doris", height = 1.57, weight = 62)
 print(student3)
 
-
-
-
 #with gather() and spread()
 student1 <- student1 %>% gather(key = "subject", value = "score", 2:4)
 student2 <- student2 %>% spread(key = type, value = measure)
@@ -90,7 +87,6 @@ data_long <- tibble(
   Score = c(90, 88, 85, 76)
 )
 data_wide <- data_long %>% spread(key = Subject, value = Score)
-
 
 #Aufgabe 2
 result <- sin(log(sqrt(5 + 3)))
@@ -106,8 +102,7 @@ result_pipe <- vector %>%
 df <- tibble(id = 1:10, 
              sex = sample(x = c("f", "m"), size = 10, replace = TRUE),
              age = round(runif(n = 10, min = 20, max = 35)), 
-             score1 = round(runif(n = 10, min = 0, max = 25))
-)
+             score1 = round(runif(n = 10, min = 0, max = 25)))
 
 #Select the date of all male students
 selected_data <- df %>% filter(sex == "m")

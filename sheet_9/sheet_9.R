@@ -1,8 +1,8 @@
+#SHEET 10
 library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("ggplot2")
-
 
 #Aufgabe 1
 x <- c(5.46, 5.34, 4.34, 4.82, 4.4, 5.12, 5.69, 5.53, 4.77, 5.82)
@@ -13,11 +13,6 @@ sd_x <- 0.5
 sd_y <- 0.6
 lenght_x <- length(x)
 length_y <- length(y)
-
-
-
-
-
 
 #Aufgabe 2
 x <- c(7.06, 11.84, 9.28, 7.92, 13.5, 3.98, 3.82, 7.34, 8.7, 9.24, 4.86, 3.32,

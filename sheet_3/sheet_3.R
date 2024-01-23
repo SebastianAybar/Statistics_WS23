@@ -1,10 +1,8 @@
-#sheet 3
-
+#SHEET 3
 library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("ggplot2")
-
 
 #Aufgabe 1.1.
 elections <- tibble(Party = character(),Results_2013 = double(),Results_2017 = double())

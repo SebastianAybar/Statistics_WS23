@@ -1,6 +1,5 @@
+#SHEET 1
 library("ggplot2")
-
-
 #the sum of 52.3, 74.8, 3.17
 52.3 + 74.8 + 3.17
 #the square root of 144
