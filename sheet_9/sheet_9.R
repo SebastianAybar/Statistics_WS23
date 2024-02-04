@@ -3,6 +3,21 @@ library("tidyverse")
 library("tidyr")
 library("dplyr")
 library("ggplot2")
+library("TeachingDemos")
+
+
+###################################################################
+#Var.test:
+#WENN p-value < alpha dann WELSH TEST
+#WENN p-value > alpha dann T.TEST
+
+#t.test:
+#p-value < alpha h0 reject 
+#p-value > alpha h0 accept
+
+#H0 Hypothesen: >= <= =
+#H1 Hypothesen: > < !=
+###################################################################
 
 #Aufgabe 1
 x <- c(5.46, 5.34, 4.34, 4.82, 4.4, 5.12, 5.69, 5.53, 4.77, 5.82)
@@ -12,18 +27,24 @@ y <- c(5.45, 5.31, 4.11, 4.69, 4.18, 5.05, 5.72, 5.54, 4.62, 5.89, 5.6, 5.19,
 alpha <- 0.05
 sd_x <- 0.5
 sd_y <- 0.6
+var_x <- sd_x^2
+var_y <- sd_y^2
 mean_x <- mean(x)
 mean_y <- mean(y)
 lenght_x <- length(x)
 length_y <- length(y)
 
-t <- (mean_x - mean_y) / sqrt((sd_x/lenght_x) + (sd_y/length_y))
-t < qnorm(alpha)
-#These annehmen
-
+T <- (mean_x - mean_y) / sqrt((var_x/lenght_x) + (var_y/length_y))
+t <- qnorm(alpha)
+#H0 = Mu1 >= Mu2
+#H1 = Mu1 < Mu2
+T < t
+#annehmen
 
 
 #Aufgabe 2
+#H0 = Mu_x >= Mu_y
+#H1 = Mu_x < Mu_y
 x <- c(7.06, 11.84, 9.28, 7.92, 13.5, 3.98, 3.82, 7.34, 8.7, 9.24, 4.86, 3.32,
        12.78, 12, 5.24, 11.4, 6.56, 9.04, 7.72, 9.26, 7.88, 8.6, 9.3, 8.42, 8.54)
 
@@ -42,27 +63,28 @@ var_x <- var(x)
 var_y <- var(y)
 alpha <- 0.05
 
+#ist hier nicht notwendig, t.test reicht
 T <- ((var_x/n) + (var_y/m))^2 / (((var_x/n)^2 / (n-1)) + ((var_y/m)^2 / (m-1)))
-t <- t.test(x,y, alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 1-alpha)
-#H0 = Mu_Y < Mu_X
-T < t$statistic
-#annehmen
+#Case 2 - t.test
+t.test(x,y, alternative = "less", paired = FALSE, var.equal = TRUE, conf.level = 1-alpha)
+#Case 3 - welsh test
+t.test(x,y, alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 1-alpha)
+
+#F-Test
+var.test(x, y, alternative = "less", paired = FALSE, conf.level = 1-alpha)
+#WENN p-value < alpha, dann WELSH TEST
+#WENN p-value > alpha, dann T.TEST
 
 
 #Aufgabe 3
-# H_null = Mu_alc > Mu_
+#H0 = Mu_water = Mu_alcohol
+#H1 = Mu_water != Mu-alcohol
 water <- c(16, 15, 11, 20, 19, 14, 13, 15, 14, 16)
 alcohol <- c(13, 13, 10, 18, 17, 11, 10, 15, 11, 16)
 alpha <- 0.05
-n_water <- length(water)
-n_alcohol <- length(alcohol)
-var_water <- var(water)
-var_alcohol <- var(alcohol)
-
-T <- ((var_water/n_water) + (var_alcohol/n_alcohol))^2 / (((var_water/n_water)^2 / (n_water-1)) + ((var_alcohol/n_alcohol)^2 / (n_alcohol-1)))
-t <- qnorm(1-alpha)
-T > t$statistic
-#ablehnen
+#Wenn wir einen "paired" Datensatz haben, ist Welsh ausgeschlossen
+t.test(water, alcohol, alternative = "two.sided", paired = TRUE, var.equal = TRUE, conf.level = 1-alpha)
+#p-value < alpha , H0 rejected, risk Type 1 Error
 
 
 
