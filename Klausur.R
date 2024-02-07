@@ -111,9 +111,47 @@ o.apr <- p.hat - q * sqrt(p.hat * (1-p.hat) / 100)
 binom.test(x=32, n=100, alternative = "two.sided", conf.level = 1-alpha)$conf.int
 t.test(befragung, alternative = "two.sided", conf.level = 1-alpha)
 
-
-
 qnorm(0.95, p = 0.5)
+
+
+#Aufgabe 5
+#According to the manufacturer the car model XYZ should consume no
+#more than 5l per 100 km in the average. A car magazine doubts this
+#claim and tests the consumption of 20 randomly selected vehicles.
+
+#H0 = Mu <= 5
+#H1 = Mu  > 5 
+data <- c(5.51, 5.42, 5.39, 5.07, 5.03, 4.85, 5.31, 4.96, 5.14, 5.24,
+          4.95, 4.84, 5.16, 5.23, 5.19, 5.47, 5.06, 5.23, 5.04, 5.36)
+alpha <- 0.05
+sd_sample <- sd(data)
+mean_sample <- mean(data)
+p <- 5
+n <- length(data)
+#Approximierter Wert
+test.stat <- ((mean_sample - 5) / sd_sample)*sqrt(n) #3.888099
+#rejection region [1.729133 ; +unendelich] ==> reject H0
+#Exact Value
+t.test(data, mu = 5, alternative = "greater", conf.level = 1-alpha)
+#reject H0 da p-value < alpha, risk Type 1 Error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

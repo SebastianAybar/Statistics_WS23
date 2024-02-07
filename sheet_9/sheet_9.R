@@ -20,6 +20,9 @@ library("TeachingDemos")
 ###################################################################
 
 #Aufgabe 1
+#Gauß Test
+#H0 = Mu1 >= Mu2
+#H1 = Mu1 < Mu2
 x <- c(5.46, 5.34, 4.34, 4.82, 4.4, 5.12, 5.69, 5.53, 4.77, 5.82)
 y <- c(5.45, 5.31, 4.11, 4.69, 4.18, 5.05, 5.72, 5.54, 4.62, 5.89, 5.6, 5.19,
        3.31, 4.43, 5.3, 4.09)
@@ -36,8 +39,6 @@ length_y <- length(y)
 
 T <- (mean_x - mean_y) / sqrt((var_x/lenght_x) + (var_y/length_y))
 t <- qnorm(alpha)
-#H0 = Mu1 >= Mu2
-#H1 = Mu1 < Mu2
 T < t
 #annehmen
 
@@ -65,20 +66,20 @@ alpha <- 0.05
 
 #ist hier nicht notwendig, t.test reicht
 T <- ((var_x/n) + (var_y/m))^2 / (((var_x/n)^2 / (n-1)) + ((var_y/m)^2 / (m-1)))
-#Case 2 - t.test
-t.test(x,y, alternative = "less", paired = FALSE, var.equal = TRUE, conf.level = 1-alpha)
-#Case 3 - welsh test
-t.test(x,y, alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 1-alpha)
 
 #F-Test
 var.test(x, y, alternative = "less", paired = FALSE, conf.level = 1-alpha)
 #WENN p-value < alpha, dann WELSH TEST
 #WENN p-value > alpha, dann T.TEST
+#Case 2 - t.test
+t.test(x,y, alternative = "less", paired = FALSE, var.equal = TRUE, conf.level = 1-alpha)
+#Case 3 - welsh test
+t.test(x,y, alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 1-alpha)
 
 
 #Aufgabe 3
-#H0 = Mu_water = Mu_alcohol
-#H1 = Mu_water != Mu-alcohol
+#H0 : Mu_water = Mu_alcohol
+#H1 : Mu_water != Mu-alcohol
 water <- c(16, 15, 11, 20, 19, 14, 13, 15, 14, 16)
 alcohol <- c(13, 13, 10, 18, 17, 11, 10, 15, 11, 16)
 alpha <- 0.05
