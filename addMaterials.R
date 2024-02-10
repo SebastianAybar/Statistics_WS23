@@ -71,7 +71,8 @@ cor(covger$new_cases, covger$new_deaths)^2 # Coefficient of determination
 #8)
 
 
-#1)Prob
+########## Probability ###############
+#Aufgabe 1
 #frid = 0.4
 #sa =0.5
 # son = 0.1
@@ -99,19 +100,14 @@ view(dtib)
 
 pbinom(80,size = 145, prob = 0.50)
 
-#2)
-E(X) = 3.075
-#Wahrscheinlichkeit vom Gericht*Preis
-0.2*3+0.4*4+0.25*2+0.15*2.5
-Var(X) =
-  10.1375 - 3.075^2
-E(X^2) - E(X)^2
-0.2*3^2+0.4*4^2+0.25*2^2+0.15*2.5^2
-#a)
+#2
 #X~N(mean = 3.075, var = 0.68)
 #P(X>=300)
 #X~N(mean = 3.075*100, var = 0.68*100) weil 100 Kunden
-1-pnorm(300,mean = 3.075*100, sd =sqrt(0.68*100))
+mu <- 0.2*3+0.4*4+0.25*2+0.15*2.5
+var <- (3-mu)^2*0.2 + (4-mu)^2*0.4 + (2-mu)^2*0.25 + (2.5-mu)^2*0.15
+1-pnorm(300, mean = mu*100, sd = sqrt(var*100))
+
 
 #b)
 # P(X<= UN) = 0.95
@@ -127,6 +123,7 @@ pnorm(321.0638, mean = 3.075*100, sd =sqrt(0.68*100))
 #(a) Determine a confidence interval of the expected value at the 99% level.
 x <- c(0.92,0.83,0.81,0.70,0.88,0.73,1.05,0.91,0.83,0.67,0.94,0.90,0.91,
        0.83,0.84,0.96,0.87,0.91,0.98,0.84,0.88,0.76,0.99,0.89,0.82)
+
 n <- length(x)
 mw <- mean(x)
 sd <- sd(x)
@@ -168,5 +165,8 @@ test.stat <- ((mw-p0)/sd)*sqrt(n) #-1.892788
 Q <- qt(1- alpha, df = n-1) #1.710882
 #Annehmen, weil  recejtion region [1.710882 ; +∞], -1.892788 nicht im Interval deswegen nicht rejection
 #Wir riskieren einen Type 2 Error
+
+
+(factorial(49)/factorial(6))/1000000
 
 

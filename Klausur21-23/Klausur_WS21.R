@@ -18,18 +18,10 @@ dataset$ulcer <- ifelse(dataset$ulcer == 1, "present", "absent")
 #mutate column still.alive
 dataset <- dataset %>% mutate(live.status = ifelse(status == "still alive", "alive", "dead"))
 #(d) Create a contingency table for the variables sex and live.status.
-contigency_table_observed <- chisq.test(dataset$sex, dataset$live.status)$observed %>% addmargins() #sobald ich observed in variable packen will klappts nicht
-contigency_table_expected <- chisq.test(dataset$sex, dataset$live.status)$expected %>% addmargins()
+chisq.test(dataset$sex, dataset$live.status)$observed %>% addmargins() #sobald ich observed in variable packen will klappts nicht
+chisq.test(dataset$sex, dataset$live.status)$expected %>% addmargins()
 Chi_squared <- chisq.test(dataset$sex, dataset$live.status)$statistic
 
-#So klappts alternativ
-contigency_table <- chisq.test(dataset$sex, dataset$live.status)
-
-observed_values <- contigency_table$observed
-observed_values %>% addmargins()
-
-expected_values <- contigency_table$expected
-expected_values %>% addmargins()
 
 #(e) Evaluate the relative risks to survive at least 3 years for the variable sex and interpret the values.
 dataset <- dataset %>%

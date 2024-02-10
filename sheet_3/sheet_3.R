@@ -36,9 +36,9 @@ barplot(matrix_t,main = "ElectionResults2013and2017",
 values <- c(568,577,581,640,641,645,657,673,696,703,720,728,729,777,808,824,825,865,875,1007)
 table_values <- table(values)
 tibble_values <- tibble(Werte = as.integer(names(table_values)),
-                      absolute_Häufigkeit = as.integer(table_values),
-                      relative_Häufigkeit = absolute_Häufigkeit/length(table_values),
-                      kumulative_Häufigkeit = cumsum(relative_Häufigkeit))
+                        absolute_Häufigkeit = as.integer(table_values),
+                        relative_Häufigkeit = absolute_Häufigkeit/length(table_values),
+                        kumulative_Häufigkeit = cumsum(relative_Häufigkeit))
 
 ecdf_data <- ecdf(tibble_values$Werte)
 plot(ecdf_data,main = "EmpirischekumulativeVerteilungsfunktion(ECDF)",

@@ -87,11 +87,12 @@ spearman_cor <- cor(data$X, data$Y, method = "spearman")
 #(a)
 #(b)
 values <- tibble(Pass = c(40,20,10),
-               Fail = c(10,10,10))
+                 Fail = c(10,10,10))
 #compute expected values
 expected_values <- chisq.test(values)$expected
 #compute chi squared
 chi_squared <- chisq.test(values)$statistic
+#by hand
 chi_squared <- sum((expected_values-values)^2/expected_values)
 #compute contigency coefficiant C
 C <- (chi_squared/(sum(values$Pass)+sum(values$Fail)+chi_squared))^0.5

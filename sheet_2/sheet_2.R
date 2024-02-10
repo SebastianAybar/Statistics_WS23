@@ -8,13 +8,13 @@ library("stringr")
 #Aufgabe
 #Was sind Observations, was sind Variables und wann ist ein Datensatz tidy
 #Jede Variable bildet eine Spalte: In einem tidy dataset sollten die Variablen oder Merkmale, 
-#die Sie analysieren möchten, in separaten Spalten dargestellt werden. Das bedeutet, 
-#dass jede Spalte eine bestimmte Art von Information enthält.
+#die Sie analysieren möchten, in separaten Spalten dargestellt werden. 
+#Das bedeutet, dass jede Spalte eine bestimmte Art von Information enthält.
 #Jede Beobachtung bildet eine Zeile: Jede Zeile des Datasets sollte eine einzelne Beobachtung
-#oder einen einzelnen Datensatz repräsentieren. Dies bedeutet, dass jede Zeile alle relevanten 
-#Informationen für diese spezifische Beobachtung enthält.
-#Jeder Wert befindet sich an einer bestimmten Stelle im Dataset: Jeder Wert in Ihrem Dataset 
-#sollte in der Zeile und Spalte sein, die dieser Wert repräsentiert. Dies sorgt für Klarheit und Verständlichkeit.
+#oder einen einzelnen Datensatz repräsentieren. 
+#Dies bedeutet, dass jede Zeile alle relevanten Informationen für diese spezifische Beobachtung enthält.
+#Jeder Wert befindet sich an einer bestimmten Stelle im Dataset: Jeder Wert in Ihrem Dataset sollte in der Zeile und Spalte sein, die dieser Wert repräsentiert. 
+#Dies sorgt für Klarheit und Verständlichkeit.
 #Die Daten sind homogen: In einem tidy dataset sollten die Daten in jeder Spalte den gleichen Datentyp aufweisen. 
 #Dies bedeutet, dass numerische Werte in numerischen Spalten und kategoriale Werte in kategorialen Spalten sein sollten.
 
