@@ -114,59 +114,111 @@ var <- (3-mu)^2*0.2 + (4-mu)^2*0.4 + (2-mu)^2*0.25 + (2.5-mu)^2*0.15
 qnorm(0.95,mean = 3.075*100, sd =sqrt(0.68*100) )
 pnorm(321.0638, mean = 3.075*100, sd =sqrt(0.68*100))
 
-######### Inferential Statistics #############
+######### Inferential Statistics ############## 
 
-#1. Consider the sample
-#These are values of independent normally distributed random variables
-#with sigma = 0.2.
+#Aufgabe 1 
+#(a)
+sample <- c(0.92,0.83,0.81,0.70,0.88,0.73,1.05,0.91,0.83,0.67,0.94,0.90,0.91,
+            0.83,0.84,0.96,0.87,0.91,0.98,0.84,0.88,0.76,0.99,0.89,0.82)
 
-#(a) Determine a confidence interval of the expected value at the 99% level.
-x <- c(0.92,0.83,0.81,0.70,0.88,0.73,1.05,0.91,0.83,0.67,0.94,0.90,0.91,
-       0.83,0.84,0.96,0.87,0.91,0.98,0.84,0.88,0.76,0.99,0.89,0.82)
-
-n <- length(x)
-mw <- mean(x)
-sd <- sd(x)
-alpha <- 0.01
+n <- length(sample)
 sigma <- 0.2
+alpha <- 0.01
+mean_sample <- mean(sample)
+q <- qnorm(1-alpha/2)
+lower_bound <- mean_sample-q*sigma/(n^0.5)
+upper_bound <- mean_sample+q*sigma/(n^0.5)
 
-ub <- mw+qnorm(1-alpha/2)sigma/sqrt(n)
-lb <- mw-qnorm(1-alpha/2)sigma/sqrt(n)
-ub; lb
-#Was ist der expected Value?
-#(b) Find the length of the confidence interval.
-ub - lb
-#The lenght of the Confidence Interval is 
+#Confidence Intervall [0,76 - 9,969]
 
-#(c) The length of the confidence interval should be 0.15. Find
-#i. how many sample values are necessary.
-#ii. an appropriate confidence level
+#(b) 
+confi_length <- upper_b1 - lower_b1
+# nach Formel
+confi_length <- 2*q*sigma/sqrt(n)
 
-#### ONE SAMPLE TEST, NORMALLY DISTRIBUTED, BOTH UNKNOWN, COMPARE Mu ==> Case 2 ####
+#(c)
+c <- (2*q*sigma/0.15)^2
 
-# (d) Assume now that the population variance is unknown. Conduct a
-#     suitable statistical test at a 5% level, to check whether the mean is greater 0.9.
-
-#H0: mu <= 0.9
-#H1: mu  > 0.9
-
+#(d)
 alpha <- 0.05
-mw <- mean(x)
-sd <- sd(x)
-p0 <- 0.9
-n <- length(x)
+#H0: Mu <= 0.9
+#H1: Mu  > 0.9
+t.test(sample, mu = 0.9, alternative = "greater", conf.level = 1 - alpha)
+#H0 annehmen, da p-value > alpha
+#risk Type 2 Error
 
-### Exact Value possible, sample is given ###
-t.test(x, mu = 0.9, alternative = "greater", conf.level = 1-alpha)
-#p-value < alpha => reject
+#Aufgabe 2
+sample <- c(98.32,97.26,99.85,99.52,95.73,95.56,100.49,98.19,95.16,98.26,
+            96.46,100.23,99.76,98.58,97.43)
 
-### Approximierter Wert ###
-test.stat <- ((mw-p0)/sd)*sqrt(n) #-1.892788
-Q <- qt(1- alpha, df = n-1) #1.710882
-#Annehmen, weil  recejtion region [1.710882 ; +∞], -1.892788 nicht im Interval deswegen nicht rejection
-#Wir riskieren einen Type 2 Error
+mu_population <- 100
+mu_sample <- mean(sample)
+alpha <- 0.05
+n <- length(sample)
+#(a)
+#H0: Mu = 100
+#H1: Mu != 100
+
+#(b) - Der t.test (Case 2) ist dafür geeignet
+
+#(c)
+#Exact Value
+t.test(sample, mu = mu_population, alternative = "two.sided",  conf.level = 1-alpha)
+# p-value < alpha
+#reject H0
+#risk Type 1 Error
+
+#Approximierten Wert
+p_value <- ((mu_sample - mu_population)/sd(sample))*sqrt(n)
+-qt(1-alpha/2, df = n-1)
+ qt(1-alpha/2, df = n-1)
+ 
+#rejection region [-unendlich ; -2.145 U 2.145 ; unendlich]
+#reject H0
+#risk Type 1 Error
+ 
+#(d)
+#H0: S1 <= S2
+#H1: S1  > S2
+sample_2 <- c(100.14,100.05,96.51,98.70,98.22,101.06,103.55,100.16,100.60,
+              102.85,103.15,100.66,102.52,102.09,100.84)
+alpha <- 0.05
+var.test(sample, sample_2, alternative = "greater", paired = "false", conf.level = 1-alpha)
+#p-value = 0.649 > alpha
+#accept H0, risk Type 1 Error
 
 
-(factorial(49)/factorial(6))/1000000
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

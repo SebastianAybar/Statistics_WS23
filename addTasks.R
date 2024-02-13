@@ -14,5 +14,4 @@ library("TeachingDemos")
 #R
 pmultinom()
 
-#1c
 
